@@ -83,7 +83,7 @@
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} Create by Thanawat Samkeam 6104101338</span>
     </v-footer>
   </v-app>
 </template>
@@ -97,20 +97,20 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-city',
+          title: 'จองห้องพัก',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-apps',
+          title: 'ข้อมูลการจอง',
+          to: '/datatable'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'HotelDelluna'
     }
   }
 }
