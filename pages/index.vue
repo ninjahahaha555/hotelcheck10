@@ -31,6 +31,7 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="email"
+              type="email"
               :rules="rules"
               hide-details="auto"
               label="E-mail"
@@ -41,7 +42,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" md="3">
             <v-menu
-              v-model="menu"
+              v-model="menu1"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -61,13 +62,13 @@
               </template>
               <v-date-picker
                 v-model="checkin"
-                @input="menu = false"
+                @input="menu1 = false"
               />
             </v-menu>
           </v-col>
           <v-col cols="12" md="3">
             <v-menu
-              v-model="menu"
+              v-model="menu2"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -87,29 +88,29 @@
               </template>
               <v-date-picker
                 v-model="checkout"
-                @input="menu = false"
+                @input="menu2 = false"
               />
             </v-menu>
           </v-col>
         </v-row>
         <v-row align="center" justify="center">
           <v-col cols="12" md="3">
-            <v-select
+            <v-text-field
               v-model="sumperson"
-              :rules="[v => !!v || 'Item is required']"
+              type="number"
+              :rules="rules"
               label="จำนวนห้อง"
               required
-              :items="items"
               filled
             />
           </v-col>
           <v-col cols="12" md="3">
-            <v-select
+            <v-text-field
               v-model="age"
-              :rules="[v => !!v || 'Item is required']"
-              label="ผู้เข้าพัก"
+              type="number"
+              :rules="rules"
+              label="จำนวนผู้เข้าพัก"
               required
-              :items="items"
               filled
             />
           </v-col>
@@ -131,13 +132,10 @@
               </v-btn>
             </template>
 
-            <v-card>
+            <v-card v-if="(name != null & lastname != null & email != null & sumperson != null & age != null)">
               <v-card-title class="headline">
-                จองห้องพักสำเร็จ
+                ทำการจองสำเร็จ
               </v-card-title>
-
-              <v-divider />
-
               <v-card-actions>
                 <v-spacer />
                 <v-btn
@@ -145,7 +143,22 @@
                   text
                   @click="dialog = false"
                 >
-                  ยืนยัน!
+                  ยืนยัน
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+            <v-card v-if="(name == null || lastname == null || email == null || sumperson == null || age == null)">
+              <v-card-title class="headline">
+                ข้อมูลไม่ถูกต้อง
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="error"
+                  text
+                  @click="dialog = false"
+                >
+                  ยืนยัน
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -162,12 +175,11 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      math: '2',
-      name: '',
-      lastname: '',
-      email: '',
-      sumperson: '',
-      age: '',
+      name: null,
+      lastname: null,
+      email: null,
+      sumperson: null,
+      age: null,
       rules: [
         value => !!value || 'Required.'
       ],
@@ -194,22 +206,24 @@ export default {
   },
   methods: {
     validate () {
-      const name = this.name
-      const lastname = this.lastname
-      const email = this.email
-      const checkin = this.checkin
-      const checkout = this.checkout
-      const sumperson = this.sumperson
-      const age = this.age
-      this.$store.commit('input', {
-        name,
-        lastname,
-        email,
-        checkin,
-        checkout,
-        sumperson,
-        age
-      })
+      if (this.name != null & this.lastname != null & this.email != null & this.sumperson != null & this.age != null) {
+        const name = this.name
+        const lastname = this.lastname
+        const email = this.email
+        const checkin = this.checkin
+        const checkout = this.checkout
+        const sumperson = this.sumperson
+        const age = this.age
+        this.$store.commit('input', {
+          name,
+          lastname,
+          email,
+          checkin,
+          checkout,
+          sumperson,
+          age
+        })
+      }
     }
   }
 }
